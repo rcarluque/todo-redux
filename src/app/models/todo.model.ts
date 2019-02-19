@@ -12,3 +12,9 @@ export class Todo {
   }
 
 }
+
+export interface TodoI {
+  id: number;
+  texto?: string;
+  completado?: boolean;
+}

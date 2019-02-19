@@ -11,21 +11,10 @@ export function todoReducer(state = estadoInicial, action: Action): Todo[] {
     case todoActionsTypes.AGREGAR_TODO:
       const todo = new Todo(action.payload);
       return [...state, todo];
-    case todoActionsTypes.TOGGLE_TODO:
-      // La función map recorre todo el array y devuelve uno nuevo.
-      return state.map( todoEdit => {
-        if (todoEdit.id === action.payload) {
-          // Debemos devolver un nuevo objeto de tipo TODO, del cual editaremos la propiedad completado y lo demás se quedará igual
-          return {
-            ...todoEdit,
-            completado: !todoEdit.completado
-          };
-        } else {
-          return todoEdit;
-        }
-      });
     case todoActionsTypes.TOGGLE_ALL_TODOS:
-      return state.map( todoEdit => {
+    // La función map recorre todo el array y devuelve uno nuevo.
+    return state.map( todoEdit => {
+      // Debemos devolver un nuevo objeto de tipo TODO, del cual editaremos la propiedad completado y lo demás se quedará igual
         return {
           ...todoEdit,
           completado: action.payload
@@ -34,10 +23,17 @@ export function todoReducer(state = estadoInicial, action: Action): Todo[] {
     case todoActionsTypes.EDIT_TODO:
       return state.map( todoEdit => {
         if (todoEdit.id === action.payload['id']) {
-          return {
-            ...todoEdit,
-            texto: action.payload['texto']
-          };
+          if (typeof(action.payload['textoOcompletado']) === 'string') {
+            return {
+              ...todoEdit,
+              texto: action.payload['textoOcompletado']
+            };
+          } else {
+            return {
+              ...todoEdit,
+              completado: action.payload['textoOcompletado']
+            };
+          }
         } else {
           return todoEdit;
         }

@@ -39,4 +39,14 @@ export class TodoEffects {
       } )
     );
 
+  @Effect({ dispatch: false })
+  editTodos$ = this.actions$
+    .pipe(
+      ofType(todoActionsTypes.EDIT_TODO),
+      map( (action: Action) => this.todoService.editarTodo(action.payload['id'], action.payload['textoOcompletado'])),
+      catchError( error => {
+        console.error(error);
+        return error;
+      } )
+    );
 }

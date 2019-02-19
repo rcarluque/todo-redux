@@ -17,8 +17,19 @@ export class TodoService {
     return this.http.post('https://todo-api-rest-rafa.herokuapp.com/api/add', todo);
   }
 
-  editarTodo(id: String, todo: Todo) {
-    this.http.put(`https://todo-api-rest-rafa.herokuapp.com/api/todo/${id}`, todo);
+  editarTodo(id: String, changeValue: any) {
+    let body = {};
+    if (typeof(changeValue) === 'string') {
+      body = {
+        texto: changeValue
+      }
+    } else {
+      body = {
+        completado: changeValue
+      }
+    }
+
+    this.http.put(`https://todo-api-rest-rafa.herokuapp.com/api/todo/${id}`, body).subscribe();
   }
 
   deleteTodo(id: String) {

@@ -52,10 +52,10 @@ export class TodoActions {
     };
   }
 
-  editarTodo(id: number, texto: string): Action {
+  editarTodo(id: number, textoOcompletado: any): Action {
     return {
       type: todoActionsTypes.EDIT_TODO,
-      payload: {id , texto}
+      payload: {id , textoOcompletado}
     };
   }
 
