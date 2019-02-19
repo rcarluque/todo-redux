@@ -9,16 +9,20 @@ import { TodoItemComponent } from './components/todo/todo-item/todo-item.compone
 import { TodoFooterComponent } from './components/todo/todo-footer/todo-footer.component';
 import { TodoAddComponent } from './components/todo/todo-add/todo-add.component';
 
+// Services
+import { HttpClientModule } from '@angular/common/http';
+
 // Form
 import { ReactiveFormsModule } from '@angular/forms';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { reducers } from './reducers/index';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { FilterComponent } from './components/filter/filter.component';
 import { FilterPipe } from './pipes/filter.pipe';
+import { TodoEffects } from './effects/todo.effects';
 
 @NgModule({
   declarations: [
@@ -28,10 +32,10 @@ import { FilterPipe } from './pipes/filter.pipe';
     TodoItemComponent,
     TodoFooterComponent,
     TodoAddComponent,
-    FilterComponent,
     FilterPipe
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     ReactiveFormsModule,
     StoreModule.forRoot(reducers),
@@ -39,6 +43,7 @@ import { FilterPipe } from './pipes/filter.pipe';
       maxAge: 25,
       logOnly: environment.production,
     }),
+    EffectsModule.forRoot([TodoEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]

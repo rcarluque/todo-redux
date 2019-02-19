@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { MainState } from 'src/app/models/mainState.model';
 import { Todo } from '../../../models/todo.model';
-import { ToggleTodoAction, EditarTodoAction, BorrarTodoAction } from '../../../actions/todo.actions';
+import { TodoActions } from '../../../actions/todo.actions';
 
 @Component({
   selector: 'app-todo-item',
@@ -20,13 +20,13 @@ export class TodoItemComponent implements OnInit {
   txtInput: FormControl;
   editando: Boolean;
 
-  constructor(private store: Store<MainState>) { }
+  constructor(private store: Store<MainState>, private todoActions: TodoActions) { }
 
   ngOnInit() {
     this.checkField = new FormControl(this.todo.completado);
     this.txtInput = new FormControl(this.todo.texto, Validators.required);
-
-    this.checkField.valueChanges.subscribe( () => this.store.dispatch(new ToggleTodoAction(this.todo.id)) );
+// llamar aqui al subcribe del servicio
+    this.checkField.valueChanges.subscribe( () => /*this.store.dispatch(this.todoActions.toggleTodo(this.todo.id)) */ console.log(this.todo.completado)  );
   }
 
   editar() {
@@ -47,11 +47,11 @@ export class TodoItemComponent implements OnInit {
       return;
     }
 
-    this.store.dispatch(new EditarTodoAction(this.todo.id, this.txtInput.value));
+    this.store.dispatch(this.todoActions.editarTodo(this.todo.id, this.txtInput.value));
   }
 
   eliminarTodo() {
-    this.store.dispatch(new BorrarTodoAction(this.todo.id));
+    this.store.dispatch(this.todoActions.borrarTodo(this.todo.id));
   }
 
 }

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MainState } from 'src/app/models/mainState.model';
 import { filtrosValidos, FilterActions } from '../../../actions/filter.actions';
+import { TodoActions } from '../../../actions/todo.actions';
 import { Todo } from '../../../models/todo.model';
-import { BorrarTodosCompAction } from '../../../actions/todo.actions';
 
 @Component({
   selector: 'app-todo-footer',
@@ -16,7 +16,7 @@ export class TodoFooterComponent implements OnInit {
   filtroActual: filtrosValidos;
   tareasPendientes: number;
 
-  constructor(private store: Store<MainState>, private filtrosActions: FilterActions) { }
+  constructor(private store: Store<MainState>, private todoActions: TodoActions, private filtrosActions: FilterActions) { }
 
   ngOnInit() {
     this.store.subscribe( state => {
@@ -34,7 +34,7 @@ export class TodoFooterComponent implements OnInit {
   }
 
   eliminarCompletados() {
-    this.store.dispatch(new BorrarTodosCompAction());
+    this.store.dispatch(this.todoActions.borrarTodosComp());
   }
 
 }

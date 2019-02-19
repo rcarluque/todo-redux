@@ -1,49 +1,75 @@
-import { Action } from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Action } from '../models/redux.model';
+import { Todo } from '../models/todo.model';
 
-export const AGREGAR_TODO = '[TODO] Agregar todo';
-export const TOGGLE_TODO = '[TODO] Toggle todo';
-export const TOGGLE_ALL_TODOS = '[TODO] Toggle All todos';
-export const EDIT_TODO = '[TODO] Edit todo';
-export const BORRAR_TODO = '[TODO] Borrar todo';
-export const BORRAR_TODOS_COMP = '[TODO] Borrar todos completados';
+export const todoActionsTypes = {
+  LOAD_TODOS : '[TODO] Carga Todos',
+  INIT_TODOS : '[TODO] Inicializar Todos',
+  AGREGAR_TODO : '[TODO] Agregar todo',
+  TOGGLE_TODO : '[TODO] Toggle todo',
+  TOGGLE_ALL_TODOS : '[TODO] Toggle All todos',
+  EDIT_TODO : '[TODO] Edit todo',
+  BORRAR_TODO : '[TODO] Borrar todo',
+  BORRAR_TODOS_COMP : '[TODO] Borrar todos completados'
+};
 
-export class AgregarTodoAction implements Action {
-  readonly type = AGREGAR_TODO;
+@Injectable({
+  providedIn: 'root'
+})
+export class TodoActions {
 
-  constructor(public texto: string) {}
+  loadTodos(): Action {
+    return {
+      type: todoActionsTypes.LOAD_TODOS
+    };
+  }
+
+  initTodos(todo: Todo[]): Action {
+    return {
+      type: todoActionsTypes.INIT_TODOS,
+      payload: todo
+    };
+  }
+
+  agregarTodo(texto: string): Action {
+    return {
+      type: todoActionsTypes.AGREGAR_TODO,
+      payload: texto
+    };
+  }
+
+  toggleTodo(id: number): Action {
+    return {
+      type: todoActionsTypes.TOGGLE_TODO,
+      payload: id
+    };
+  }
+
+  toggleAllTodos(completado: boolean): Action {
+    return {
+      type: todoActionsTypes.TOGGLE_ALL_TODOS,
+      payload: completado
+    };
+  }
+
+  editarTodo(id: number, texto: string): Action {
+    return {
+      type: todoActionsTypes.EDIT_TODO,
+      payload: {id , texto}
+    };
+  }
+
+  borrarTodo(id: number): Action {
+    return {
+      type: todoActionsTypes.BORRAR_TODO,
+      payload: id
+    };
+  }
+
+  borrarTodosComp(): Action {
+    return {
+      type: todoActionsTypes.BORRAR_TODOS_COMP
+    };
+  }
+
 }
-
-export class ToggleTodoAction implements Action {
-  readonly type = TOGGLE_TODO;
-
-  constructor(public id: number) {}
-}
-
-export class ToggleAllTodosAction implements Action {
-  readonly type = TOGGLE_ALL_TODOS;
-
-  constructor(public completado: boolean) {}
-}
-
-export class EditarTodoAction implements Action {
-  readonly type = EDIT_TODO;
-
-  constructor(public id: number, public texto: string) {}
-}
-
-export class BorrarTodoAction implements Action {
-  readonly type = BORRAR_TODO;
-
-  constructor(public id: number) {}
-}
-
-export class BorrarTodosCompAction implements Action {
-  readonly type = BORRAR_TODOS_COMP;
-}
-
-export type Acciones = AgregarTodoAction |
-                      ToggleTodoAction |
-                      ToggleAllTodosAction |
-                      EditarTodoAction |
-                      BorrarTodoAction |
-                      BorrarTodosCompAction;
