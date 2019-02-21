@@ -23,7 +23,7 @@ export class TodoAddComponent implements OnInit {
     if (this.txtInput.invalid) {
       return;
     }
-    this.store.dispatch(this.todoActions.agregarTodo(this.txtInput.value));
+    this.store.dispatch(this.todoActions.addTodo(this.txtInput.value));
     this.txtInput.setValue('');
   }
 

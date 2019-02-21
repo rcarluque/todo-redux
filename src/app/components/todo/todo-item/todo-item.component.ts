@@ -1,21 +1,23 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { MainState } from 'src/app/models/mainState.model';
 import { Todo } from '../../../models/todo.model';
 import { TodoActions } from '../../../actions/todo.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-todo-item',
   templateUrl: './todo-item.component.html',
   styles: []
 })
-export class TodoItemComponent implements OnInit {
+export class TodoItemComponent implements OnInit, OnDestroy {
 
   // Recogemos un elemento # del html.
   @ViewChild('inputEditar') inputEditar: ElementRef;
 
   @Input() todo: Todo;
+  // subscription: Subscription;
   checkField: FormControl;
   txtInput: FormControl;
   editando: Boolean;
@@ -23,10 +25,22 @@ export class TodoItemComponent implements OnInit {
   constructor(private store: Store<MainState>, private todoActions: TodoActions) { }
 
   ngOnInit() {
+
+    // this.subscription = this.store.select('todos').subscribe( data => {
+    //   const todoN = data.find( todoFind => todoFind.id === this.todo.id);
+    //   llamada al servicio editarTodo() (Pero llamaría dos veces, lo que podría crear una simulación de ataque al servidor)
+    // });
+
     this.checkField = new FormControl(this.todo.completado);
     this.txtInput = new FormControl(this.todo.texto, Validators.required);
-// llamar aqui al subcribe del servicio
-    this.checkField.valueChanges.subscribe( () => /*this.store.dispatch(this.todoActions.toggleTodo(this.todo.id)) */ console.log(this.todo.completado)  );
+
+    this.checkField.valueChanges.subscribe( () => {
+      this.store.dispatch(this.todoActions.toggleTodo(this.todo.id));
+    });
+  }
+
+  ngOnDestroy(): void {
+    // this.subscription.unsubscribe();
   }
 
   editar() {

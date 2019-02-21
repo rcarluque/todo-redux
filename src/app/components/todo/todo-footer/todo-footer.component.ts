@@ -21,7 +21,7 @@ export class TodoFooterComponent implements OnInit {
   ngOnInit() {
     this.store.subscribe( state => {
       this.filtroActual = state.filtro;
-      this.contarPendientes(state.todos);
+      this.contarPendientes(state.todos.todos);
     });
   }
 

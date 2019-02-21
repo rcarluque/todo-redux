@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Todo } from '../models/todo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +12,16 @@ export class TodoService {
     return this.http.get('https://todo-api-rest-rafa.herokuapp.com/api/todos');
   }
 
-  addTodo(todo: Todo) {
-    return this.http.post('https://todo-api-rest-rafa.herokuapp.com/api/add', todo);
+  addTodo(texto: String) {
+    return this.http.post('https://todo-api-rest-rafa.herokuapp.com/api/add', texto);
   }
 
-  editarTodo(id: String, todo: Todo) {
-    this.http.put(`https://todo-api-rest-rafa.herokuapp.com/api/todo/${id}`, todo);
+  editarToggleTodo(id: String, toggle: boolean) {
+    this.http.put(`https://todo-api-rest-rafa.herokuapp.com/api/todo/${id}?toggle=${toggle}`, {}).subscribe( log => console.error(log) );
+  }
+
+  editarTextoTodo(id: String, texto: String) {
+    this.http.put(`https://todo-api-rest-rafa.herokuapp.com/api/todo/${id}?texto=${texto}`, {}).subscribe( log => console.error(log) );
   }
 
   deleteTodo(id: String) {

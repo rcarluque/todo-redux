@@ -4,8 +4,10 @@ import { Todo } from '../models/todo.model';
 
 export const todoActionsTypes = {
   LOAD_TODOS : '[TODO] Carga Todos',
-  INIT_TODOS : '[TODO] Inicializar Todos',
-  AGREGAR_TODO : '[TODO] Agregar todo',
+  LOAD_TODOS_SUCCESSFUL : '[TODO] Todos Cargados correctamente',
+  TODOS_FAIL : '[TODO] Fallo en la carga de todos',
+  ADD_TODO : '[TODO] Agregar todo',
+  ADD_TODO_SUCCESSFULL : '[TODO] Todo agregado correctamente',
   TOGGLE_TODO : '[TODO] Toggle todo',
   TOGGLE_ALL_TODOS : '[TODO] Toggle All todos',
   EDIT_TODO : '[TODO] Edit todo',
@@ -24,21 +26,35 @@ export class TodoActions {
     };
   }
 
-  initTodos(todo: Todo[]): Action {
+  loadTodosSuccessful(todo: Todo[]): Action {
     return {
-      type: todoActionsTypes.INIT_TODOS,
+      type: todoActionsTypes.LOAD_TODOS_SUCCESSFUL,
       payload: todo
     };
   }
 
-  agregarTodo(texto: string): Action {
+  todosFail(error): Action {
     return {
-      type: todoActionsTypes.AGREGAR_TODO,
+      type: todoActionsTypes.TODOS_FAIL,
+      payload: error
+    };
+  }
+
+  addTodo(texto: string): Action {
+    return {
+      type: todoActionsTypes.ADD_TODO,
       payload: texto
     };
   }
 
-  toggleTodo(id: number): Action {
+  addTodoSuccessful(todo: Todo): Action {
+    return {
+      type: todoActionsTypes.ADD_TODO_SUCCESSFULL,
+      payload: todo
+    };
+  }
+
+  toggleTodo(id: string): Action {
     return {
       type: todoActionsTypes.TOGGLE_TODO,
       payload: id
@@ -52,14 +68,14 @@ export class TodoActions {
     };
   }
 
-  editarTodo(id: number, texto: string): Action {
+  editarTodo(id: string, texto: string): Action {
     return {
       type: todoActionsTypes.EDIT_TODO,
       payload: {id , texto}
     };
   }
 
-  borrarTodo(id: number): Action {
+  borrarTodo(id: string): Action {
     return {
       type: todoActionsTypes.BORRAR_TODO,
       payload: id
